@@ -120,7 +120,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
         default:
-	    uprintf("key was %d\n", keycode);
+	    dprintf("key was %d\n", keycode);
             return true; //Process all other keycodes normally
     }
 }
