@@ -47,8 +47,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 void matrix_init_user(void) {
 };
 
-bool has_layer_changed = false;
-bool gaming_mode = false;
 // Runs constantly in the background, in a loop.
 void matrix_scan_user(void) {
 	uint8_t layer = biton32(layer_state);
@@ -56,7 +54,6 @@ void matrix_scan_user(void) {
 
 	dprintf("layer is %d oldlayer is %d\n", layer, old_layer);
 	if (old_layer != layer) {
-		has_layer_changed = false;
 		dprintf("layer has changed to %d\n", layer);
 		switch (layer) {
 			case _LOWER:
@@ -70,23 +67,94 @@ void matrix_scan_user(void) {
 	} 
 }
 
+void set_leds_gaming_mode(void){
+		rgblight_sethsv_noeeprom (HSV_BLUE);
+		rgb_matrix_set_color(1, 0,0,0);
+		rgb_matrix_set_color(2, 0,0,0);
+		rgb_matrix_set_color(3, 0,0,0);
+		rgb_matrix_set_color(4, 0,0,0);
+		rgb_matrix_set_color(5, 0,0,0);
+		rgb_matrix_set_color(6, 0,0,0);
+		rgb_matrix_set_color(7, 0,0,0);
+		rgb_matrix_set_color(8, 0,0,0);
+		rgb_matrix_set_color(9, 0,0,0);
+		rgb_matrix_set_color(10, 0,0,0);
+		rgb_matrix_set_color(11, 0,0,0);
+		rgb_matrix_set_color(12, 0,0,0);
+		rgb_matrix_set_color(13, 0,0,0);
+		rgb_matrix_set_color(14, 0,0,0);
+		rgb_matrix_set_color(15, 0,0,0);
+		rgb_matrix_set_color(16, RGB_CYAN);
+		rgb_matrix_set_color(17, RGB_BLUE);
+		rgb_matrix_set_color(18, RGB_CYAN);
+		rgb_matrix_set_color(19, 0,0,0);
+		rgb_matrix_set_color(20, 0,0,0);
+		rgb_matrix_set_color(21, 0,0,0);
+		rgb_matrix_set_color(22, 0,0,0);
+		rgb_matrix_set_color(23, 0,0,0);
+		rgb_matrix_set_color(24, 0,0,0);
+		rgb_matrix_set_color(25, 0,0,0);
+		rgb_matrix_set_color(26, 0,0,0);
+		rgb_matrix_set_color(27, 0,0,0);
+		rgb_matrix_set_color(28, 0,0,0);
+		rgb_matrix_set_color(29, 0,0,0);
+		rgb_matrix_set_color(30, 0,0,0);
+		rgb_matrix_set_color(31, RGB_BLUE);
+		rgb_matrix_set_color(32, RGB_BLUE);
+		rgb_matrix_set_color(33, RGB_BLUE);
+		rgb_matrix_set_color(34, 0,0,0);
+		rgb_matrix_set_color(35, 0,0,0);
+		rgb_matrix_set_color(36, 0,0,0);
+		rgb_matrix_set_color(37, 0,0,0);
+		rgb_matrix_set_color(38, 0,0,0);
+		rgb_matrix_set_color(39, 0,0,0);
+		rgb_matrix_set_color(40, 0,0,0);
+		rgb_matrix_set_color(41, 0,0,0);
+		rgb_matrix_set_color(42, RGB_BLUE);
+		rgb_matrix_set_color(43, 0,0,0);
+		rgb_matrix_set_color(44, RGB_BLUE);
+		rgb_matrix_set_color(45, 0,0,0);
+		rgb_matrix_set_color(46, 0,0,0);
+		rgb_matrix_set_color(47, 0,0,0);
+		rgb_matrix_set_color(48, 0,0,0);
+		rgb_matrix_set_color(49, 0,0,0);
+		rgb_matrix_set_color(50, 0,0,0);
+		rgb_matrix_set_color(51, RGB_BLUE);
+		rgb_matrix_set_color(52, 0,0,0);
+		rgb_matrix_set_color(53, 0,0,0);
+		rgb_matrix_set_color(54, 0,0,0);
+		rgb_matrix_set_color(55, 0,0,0);
+		rgb_matrix_set_color(56, 0,0,0);
+		rgb_matrix_set_color(57, 0,0,0);
+		rgb_matrix_set_color(58, RGB_BLUE);
+		rgb_matrix_set_color(59, 0,0,0);
+		rgb_matrix_set_color(60, 0,0,0);
+		rgb_matrix_set_color(61, RGB_BLUE);
+		rgb_matrix_set_color(62, 0,0,0);
+		rgb_matrix_set_color(63, 0,0,0);
+		rgb_matrix_set_color(64, 0,0,0);
+		rgb_matrix_set_color(65, 0,0,0);
+		rgb_matrix_set_color(66, 0,0,0);
+}
+
+
+bool gaming_mode = false;
 void rgb_matrix_indicators_user(void) {
   switch (biton32(layer_state)) {
     case _ONE:
 	//rgblight_sethsv_noeeprom (HSV_CYAN);
       break;
+    case _LOWER:
+			if (gaming_mode){
+     		set_leds_gaming_mode();
+			} 
+			break;
+
+    
     default:
-    break;
+      break;
   }
-  if (gaming_mode){
-	rgb_matrix_set_color(17, RGB_BLUE);
 
-	rgb_matrix_set_color(31, RGB_BLUE);
-
-	rgb_matrix_set_color(32, RGB_BLUE);
-
-	rgb_matrix_set_color(33, RGB_BLUE);
-  }
 }
 
 #define MODS_SHIFT  (get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))
