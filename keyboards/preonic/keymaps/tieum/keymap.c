@@ -16,7 +16,7 @@
 
 #include QMK_KEYBOARD_H
 #include "muse.h"
-
+#include "audio/song_list.h"
 enum preonic_layers {
   _QWERTY,
   _COLEMAK,
@@ -33,8 +33,20 @@ enum preonic_keycodes {
   LOWER,
   RAISE,
   BACKLIT,
-  KC_CCCV
+  KC_CCCV,
+  MUSIC1,
+  MUSIC2,
+  MUSIC3,
+  MUSIC4,
+  MUSIC5,
+  MUSIC6
 };
+float music1[][2] = SONG(MARIO_THEME);
+float music2[][2] = SONG(MARIO_MUSHROOM);
+float music3[][2] = SONG(ONE_UP_SOUND);
+float music4[][2] = SONG(ZELDA_PUZZLE);
+float music5[][2] = SONG(ZELDA_TREASURE);
+float music6[][2] = SONG(SONIC_RING);
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Qwerty
@@ -108,7 +120,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * | Del  |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |   _  |   +  |   {  |   }  |  |   |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |ISO ~ |ISO | |      |      |      |
+ * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |ISO ~ |ISO | |WheelD|WheelU|Click!|
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |             |      |MouseL|MouseD|MouseU|MouseR|
  * `-----------------------------------------------------------------------------------'
@@ -117,7 +129,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC, \
   KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_DEL,  \
   KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, \
-  _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,S(KC_NUHS),S(KC_NUBS),KC_HOME, KC_END, _______, \
+  _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,S(KC_NUHS),S(KC_NUBS),KC_WH_D, KC_WH_U, KC_BTN1, \
   _______, _______, _______, _______, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R \
 ),
 
@@ -144,7 +156,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Adjust (Lower + Raise)
  * ,-----------------------------------------------------------------------------------.
- * |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |
+ * |MUSIC1|MUSIC2|MUSIC3|MUSIC4|MUSIC5|MUSIC6|  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      | Reset|      |      |      |      |      |      |      |      |      |  Del |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
@@ -156,7 +168,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_ADJUST] = LAYOUT_preonic_grid( \
-  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  \
+  MUSIC1, MUSIC2,   MUSIC3,  MUSIC4,  MUSIC5,  MUSIC6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  \
   _______, RESET,   DEBUG,   _______, _______, _______, _______, TERM_ON, TERM_OFF,_______, _______, KC_DEL,  \
   _______, _______, MU_MOD,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, QWERTY,  COLEMAK, DVORAK,  _______, _______, \
   _______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  MI_ON,   MI_OFF,  _______, _______, _______, _______, _______, \
@@ -237,6 +249,42 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
               }
           }
           return false;
+          break;
+        case MUSIC1:  
+          if (record->event.pressed) {  
+             PLAY_SONG(music1); 
+          } 
+          return false; 
+          break;
+        case MUSIC2:  
+          if (record->event.pressed) {  
+             PLAY_SONG(music2); 
+          } 
+          return false; 
+          break;
+        case MUSIC3:  
+          if (record->event.pressed) {  
+             PLAY_SONG(music3); 
+          } 
+          return false; 
+          break;
+        case MUSIC4:  
+          if (record->event.pressed) {  
+             PLAY_SONG(music4); 
+          } 
+          return false; 
+          break;
+        case MUSIC5:  
+          if (record->event.pressed) {  
+             PLAY_SONG(music5); 
+          } 
+          return false; 
+          break;
+        case MUSIC6:  
+          if (record->event.pressed) {  
+             PLAY_SONG(music6); 
+          } 
+          return false; 
           break;
 
 
